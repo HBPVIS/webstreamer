@@ -1,0 +1,47 @@
+#-------------------------------------------------------------------------------
+# web streamer
+#
+# Copyright (c) 2017 RWTH Aachen University, Germany,
+# Virtual Reality & Immersive Visualization Group.
+#-------------------------------------------------------------------------------
+#                                 License
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
+cmake_minimum_required(VERSION 3.6)
+
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED on)
+
+project(webstreamer)
+
+include(CTest)
+include(GenerateExportHeader)
+include(WarningLevels)
+
+include(conan)
+execute_process(COMMAND conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan False OUTPUT_QUIET)
+conan_cmake_run(CONANFILE conanfile.txt BUILD missing)
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+add_subdirectory(./webstreamer)
+if (${BUILD_QT_INPUTPROCESSOR})
+  add_subdirectory(./qt_inputprocessor)
+endif()
+add_subdirectory(./test-stream)
+add_subdirectory(./loop-stream)
+add_subdirectory(./noise-stream)

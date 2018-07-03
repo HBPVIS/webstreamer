@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+</head>
+
+<body>
+  <div id="container">
+    <div id="webstream">
+
+      <div id="advanced-settings-overlay">
+        <div id="advanced-settings-overlay-tabs">
+          <ul>
+            <li>
+              <a href="#advanced-settings-stream">Stream</a>
+            </li>
+            <li>
+              <a href="#advanced-settings-codec">Codec</a>
+            </li>
+          </ul>
+          <div id="advanced-settings-stream">
+            <label for="stream">Streaming Protocol</label>
+            <select name="stream" id="stream">
+              <option selected="selected">WebSocket</option>
+              <option disabled="disabled">WebRTC</option>
+            </select>
+            <div class="stream-settings" data-stream-type="webSocket">
+              <h1>WebSocket</h1>
+            </div>
+            <div class="stream-settings" data-stream-type="webRTC">
+              <h1>WebRTC</h1>
+            </div>
+          </div>
+          <div id="advanced-settings-codec">
+            <label for="video-codec">Video Codec</label>
+            <select name="video-codec" id="video-codec">
+              <option selected="selected">Raw 24-bit RGB</option>
+              <option disabled="disabled">H.264</option>
+            </select>
+            <div class="decoder-settings" data-codec="raw">
+              <h1>Raw</h1>
+            </div>
+            <div class="decoder-settings" data-codec="h264">
+              <h1>H264</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <ul id="settings-menu" class="settings-menu">
+        <li id="advanced">
+          <div>Advanced</div>
+        </li>
+        <li>
+          <div>
+            Show Statistics
+          </div>
+        </li>
+        <li id="change-quality">
+          <div>
+            Quality (
+            <span id="current-video-mode"></span>
+            )
+          </div>
+        </li>
+      </ul>
+
+      <ul id="quality-settings-menu" class="settings-menu">
+      </ul>
+    </div>
+
+    <div id="input-bar">
+      <button id="play-stop-button" style="float: left;">
+        <span id="play-icon" class="ui-icon ui-icon-play" style="display: none;"></span>
+        <span id="stop-icon" class="ui-icon ui-icon-stop"></span>
+      </button>
+      <label for="input-button">
+        <span class="ui-icon ui-icon-pencil"></span>
+      </label>
+      <input type="checkbox" name="input-button" id="input-button">
+      <button id="settings-menu-button" style="float: right;">
+        <span class="ui-icon ui-icon-gear"></span>
+      </button>
+      <div style="clear: both" />
+    </div>
+  </div>
+</body>
+
+</html>

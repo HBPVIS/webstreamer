@@ -1,0 +1,37 @@
+{
+    "webServer": {
+        "port": 8000,
+        "rootDir": "client/dist"
+    },
+    "codecs": {
+        "h264": {
+            "enabled": true,
+            "displayModes": [
+                {
+                    "width": 1280,
+                    "height": 720,
+                    "framerate": 30,
+                    "bitrate": 6000
+                },
+                {
+                    "width": 854,
+                    "height": 480,
+                    "framerate": 30,
+                    "bitrate": 6000
+                },
+                {
+                    "width": 640,
+                    "height": 360,
+                    "framerate": 30,
+                    "bitrate": 6000
+                },
+                {
+                    "width": 426,
+                    "height": 240,
+                    "framerate": 30,
+                    "bitrate": 6000
+                }
+            ]
+        }
+    }
+}

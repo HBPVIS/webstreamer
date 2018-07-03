@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "noImplicitAny": false,
+        "removeComments": false,
+        "preserveConstEnums": false,
+        "target": "es5",
+        "sourceMap": true,
+        "declaration": false,
+        "noImplicitReturns": true
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}

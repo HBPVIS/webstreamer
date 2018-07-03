@@ -1,0 +1,44 @@
+#-------------------------------------------------------------------------------
+# web streamer
+#
+# Copyright (c) 2017 RWTH Aachen University, Germany,
+# Virtual Reality & Immersive Visualization Group.
+#-------------------------------------------------------------------------------
+#                                 License
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#-------------------------------------------------------------------------------
+
+# - Config file for the webstreamer package
+# It defines the following variables
+#  WEBSTREAMER_INCLUDE_DIRS - include directories for webstreamer
+#  WEBSTREAMER_LIBRARIES    - libraries to link against
+ 
+# Compute paths
+get_filename_component(WEBSTREAMER_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
+set(WEBSTREAMER_INCLUDE_DIRS @CMAKE_CURRENT_SOURCE_DIR@/include @CONAN_INCLUDE_DIRS@)
+set(WEBSTREAMER_LIB_DIRS @CONAN_LIB_DIRS@)
+SET(WEBSTREAMER_DEFINES @CONAN_DEFINES@)
+ 
+# Our library dependencies (contains definitions for IMPORTED targets)
+if(NOT TARGET webstreamer)
+  include("${WEBSTREAMER_CMAKE_DIR}/webstreamer-targets.cmake")
+endif()
+
+set_target_properties(webstreamer PROPERTIES
+  INTERFACE_INCLUDE_DIRECTORIES "@CONAN_INCLUDE_DIRS@"
+)
+ 
+# These are IMPORTED targets created by webstreamer-targets.cmake
+set(WEBSTREAMER_LIBRARIES webstreamer)
