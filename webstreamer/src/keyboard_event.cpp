@@ -22,6 +22,7 @@
 
 #include "webstreamer/keyboard_event.hpp"
 #include <cassert>
+#include <cstring>
 #include <stdexcept>
 
 namespace webstreamer {
