@@ -14,10 +14,18 @@ Virtual Reality & Immersive Visualization Group.
 
 ## Building
 
-1. Clone repository
-2. Create build directory
-3. Run cmake
-4. Build library
+1. `mkdir build`
+2. `cd build`
+3. `cmake ..`
+4. `cmake --build .`
+
+## Test
+
+To test if everything is working, run the *noise-stream* example. This requires a proper configuration file called `webstreamer_config.json` in the working directory (see next section). Type in `http://localhost:<PORT>/index.html` in a browser (replace `<PORT>` with the port specified in the configuration file) and you should see a video stream with random pixel data. Clicking on the *play/pause* icon will pause or resume the stream. Clicking on the *pencil* icon will gain control over the underlying application, i.e., the mouse and keyboard input is now forwarded to the underlying application (which, however, has no effect in this example).
+
+## Configuration File
+
+WebStreamer uses a configuration file in order to change its settings. An example of such a configuration can be found in the root directory of the repository and is called `webstreamer_config.json`. 
 
 ## Integration
 
@@ -29,9 +37,6 @@ target_link_libraries(<TARGET> webstreamer)
 ```
 
 All include files are contained in the folder _webstreamer_ and the namespace with the same name is used to encapsulate all classes and functions. The main class of the library is the _WebStreamer_ class that is defined in the header file _webstreamer/webstreamer.hpp_. This class must be instantiated by the application in order to use the library. Its constructor takes the path to a configuration file that can be used to define the behaviour of the library. In addition, there are two distinct interaction points between the application and the library: passing video ouput from the application to the library and passing input events from the library to the server. All three topics are covered in the following.
-
-### Configuration File
-
 
 
 ### Sending Video data
@@ -50,7 +55,7 @@ The parameters _width_ and _height_ correspond to the size of the frame. The siz
 
 ### Receiving Input Data
 
-
+Handling input data on the server side is done using the `InputProcessor` interface. Which must be registered to the main `WebStreamer` class using its `RegisterInputProcessor()` method. The application should either derive from the `SynchronousInputProcessor` or `AsynchronousInputProcessor` class and implement the `ProcessMouseInput()` and `ProcessKeyboardInput()` functions accordingly. The difference between the two classes lies in the exact time the member functions are called. In the case of the `AsynchronousInputProcessor` the corresponding function is called from a seperate thread immediately when an input event is received at the server side. The `SynchronousInputProcessor` on the other hand buffers all events and calls the corresponding function only if the application calls its `ProcessInput()` function. The repository contains an example implementation of an `AsynchronousInputProcessor` for Qt applications. This can be found in the *qt_inputprocessor* subdirectory. If you are developing a Qt application you can use this implementation directly (make sure to pass the flag `-DBUILD_QT_INPUTPROCESSOR=ON` to the cmake command line).
 
 ## License
 
