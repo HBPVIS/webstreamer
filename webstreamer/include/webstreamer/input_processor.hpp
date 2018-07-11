@@ -57,6 +57,9 @@ class WEBSTREAMER_EXPORT SynchronousInputProcessor : public InputProcessor {
 
   void ProcessInput();
 
+  Event::Ptr GetNextEvent();
+  Event::Ptr GetNextEventOfType(EventType type);
+
  protected:
   std::mutex events_mutex_;
   std::vector<Event::Ptr> events_;

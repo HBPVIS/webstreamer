@@ -64,6 +64,33 @@ void SynchronousInputProcessor::ProcessInput() {
   events_.clear();
 }
 
+Event::Ptr SynchronousInputProcessor::GetNextEvent() {
+  std::lock_guard<std::mutex> lock(events_mutex_);
+  if (events_.empty()) {
+    return Event::Ptr{};
+  } else {
+    Event::Ptr event = std::move(events_.front());
+    events_.erase(events_.begin());  // Not very efficient, but the vector
+                                     // should be usually very small so only
+                                     // few elements have to be copied.
+    return event;
+  }
+}
+
+Event::Ptr SynchronousInputProcessor::GetNextEventOfType(EventType type) {
+  std::lock_guard<std::mutex> lock(events_mutex_);
+  for (auto i = events_.begin(); i != events_.end(); ++i) {
+    if (i->get()->type() == type) {
+      Event::Ptr event = std::move(*i);
+      events_.erase(i);  // Not very efficient, but the vector
+                         // should be usually very small so only
+                         // few elements have to be copied.
+      return event;
+    }
+  }
+  return Event::Ptr{};
+}
+
 void AsynchronousInputProcessor::PushEvent(Event::Ptr event) {
   ProcessEvent(*event);
 }
