@@ -50,7 +50,7 @@ SetWarningLevelRWTH(webstreamer)
 
 # --- dependencies ---
 # Poco C++ libraries
-# target_include_directories(webstreamer PUBLIC ${CONAN_INCLUDE_DIRS})
+target_include_directories(webstreamer PUBLIC ${CONAN_INCLUDE_DIRS})
 # target_link_libraries(webstreamer PUBLIC ${CONAN_LIBS})
 # target_include_directories(webstreamer PUBLIC ${CONAN_LIBS})
 target_link_libraries(webstreamer ${CONAN_LIBS})
