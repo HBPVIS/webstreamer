@@ -36,7 +36,7 @@ add_test(NAME "cpplint@vn/tests" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplint.p
   ${VN_TEST_HEADERS}
 )
 
-SetWarningLevelRWTH(vn_tests)
+set_warning_levels_rwth(vn_tests)
 
 
 # --- dependencies ---

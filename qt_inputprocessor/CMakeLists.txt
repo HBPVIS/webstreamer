@@ -45,7 +45,7 @@ GENERATE_EXPORT_HEADER(qt_inputprocessor EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURC
 
 target_include_directories(qt_inputprocessor PUBLIC ${QT_INPUT_PROCESSOR_INCLUDE_DIRS})
 
-SetWarningLevelRWTH(qt_inputprocessor)
+set_warning_levels_rwth(qt_inputprocessor)
 
 
 # --- dependencies ---

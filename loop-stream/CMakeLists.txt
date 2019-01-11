@@ -32,7 +32,7 @@ add_test(NAME "cpplint@loop-stream" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplin
   ${LOOP_STREAM_HEADERS}
 )
 
-SetWarningLevelRWTH(loop-stream)
+set_warning_levels_rwth(loop-stream)
 
 
 # --- dependencies --

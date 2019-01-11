@@ -32,7 +32,7 @@ add_test(NAME "cpplint@noise-stream" COMMAND "python" "${CMAKE_SOURCE_DIR}/cppli
   ${NOISE_STREAM_HEADERS}
 )
 
-SetWarningLevelRWTH(noise-stream)
+set_warning_levels_rwth(noise-stream)
 
 
 # --- dependencies --

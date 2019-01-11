@@ -1,0 +1,78 @@
+//------------------------------------------------------------------------------
+// Web Streamer
+//
+// Copyright (c) 2017 RWTH Aachen University, Germany,
+// Virtual Reality & Immersive Visualization Group.
+//------------------------------------------------------------------------------
+//                                 License
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <http://www.gnu.org/licenses/>.
+//------------------------------------------------------------------------------
+
+#ifndef CONTRA_SUPPRESS_WARNINGS_
+#define CONTRA_SUPPRESS_WARNINGS_
+
+// clang-format off
+
+#if defined __clang__
+#define SUPPRESS_WARNINGS_BEGIN                                           \
+  _Pragma("clang diagnostic push")                                        \
+  _Pragma("clang diagnostic ignored \"-Wall\"")                           \
+  _Pragma("clang diagnostic ignored \"-Wextra\"")                         \
+  _Pragma("clang diagnostic ignored \"-Wreserved-id-macro\"")             \
+  _Pragma("clang diagnostic ignored \"-Wimplicit-fallthrough\"")          \
+  _Pragma("clang diagnostic ignored \"-Wdocumentation\"")                 \
+  _Pragma("clang diagnostic ignored \"-Wdocumentation-unknown-command\"") \
+  _Pragma("clang diagnostic ignored \"-Wpadded\"")                        \
+  _Pragma("clang diagnostic ignored \"-Wpessimizing-move\"")              \
+  _Pragma("clang diagnostic ignored \"-Wunused-parameter\"")              \
+  _Pragma("clang diagnostic ignored \"-Wold-style-cast\"")                \
+  _Pragma("clang diagnostic ignored \"-Wsign-conversion\"")               \
+  _Pragma("clang diagnostic ignored \"-Wnewline-eof\"")                   \
+  _Pragma("clang diagnostic ignored \"-Wnon-virtual-dtor\"")              \
+  _Pragma("clang diagnostic ignored \"-Wmissing-prototypes\"")            \
+    _Pragma("clang diagnostic ignored \"-Wextra-semi\"")
+#define SUPPRESS_WARNINGS_BEGIN_PADDED \
+  _Pragma("clang diagnostic push")                                        \
+  _Pragma("clang diagnostic ignored \"-Wpadded\"")
+#define SUPPRESS_WARNINGS_END _Pragma("clang diagnostic pop")
+
+#elif defined _MSC_VER
+#define SUPPRESS_WARNINGS_BEGIN __pragma(warning(push, 0));
+#define SUPPRESS_WARNINGS_BEGIN_PADDED  __pragma(warning(push));
+#define SUPPRESS_WARNINGS_END __pragma(warning(pop));
+
+#elif defined __GNUC__
+#if __GNUC__ >= 7
+  #define SUPPRESS_WARNINGS_GCC7_AND_ABOVE \
+    _Pragma("GCC diagnostic ignored \"-Wimplicit-fallthrough\"")
+#else
+  #define SUPPRESS_WARNINGS_GCC7_AND_ABOVE
+#endif
+#define SUPPRESS_WARNINGS_BEGIN                                           \
+  _Pragma("GCC diagnostic push")                                          \
+  SUPPRESS_WARNINGS_GCC7_AND_ABOVE                                        \
+  _Pragma("GCC diagnostic ignored \"-Wall\"")                             \
+  _Pragma("GCC diagnostic ignored \"-Wextra\"")                           \
+  _Pragma("GCC diagnostic ignored \"-Wpadded\"")
+#define SUPPRESS_WARNINGS_BEGIN_PADDED                                    \
+  _Pragma("GCC diagnostic push")                                          \
+  _Pragma("GCC diagnostic ignored \"-Wpadded\"")
+#define SUPPRESS_WARNINGS_END _Pragma("GCC diagnostic pop")
+
+#endif
+
+// clang-format on
+
+#endif // CONTRA_SUPPRESS_WARNINGS_

@@ -45,7 +45,7 @@ GENERATE_EXPORT_HEADER(webstreamer EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}
 
 target_include_directories(webstreamer PUBLIC ${WEBSTREAMER_INCLUDE_DIRS})
 
-SetWarningLevelRWTH(webstreamer)
+set_warning_levels_rwth(webstreamer)
 
 
 # --- dependencies ---

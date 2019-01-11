@@ -32,7 +32,7 @@ add_test(NAME "cpplint@test-stream" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplin
   ${CLI_RENDERER_HEADERS}
 )
 
-SetWarningLevelRWTH(test-stream)
+set_warning_levels_rwth(test-stream)
 
 
 # --- dependencies --
