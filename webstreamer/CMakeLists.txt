@@ -24,26 +24,28 @@ file(GLOB WEBSTREAMER_SOURCES src/*.cpp)
 file(GLOB WEBSTREAMER_HEADERS src/*.hpp)
 file(GLOB WEBSTREAMER_API_HEADERS include/webstreamer/*.hpp)
 
-set(WEBSTREAMER_INCLUDE_DIRS 
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-  ${PROJECT_BINARY_DIR}
-  CACHE PATH "Path to public headers in webstreamer's source tree."
-)
-
 add_library(webstreamer
   ${WEBSTREAMER_SOURCES}
   ${WEBSTREAMER_HEADERS}
   ${WEBSTREAMER_API_HEADERS}
 )
+
 add_test(NAME "cpplint@webstreamer" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplint.py"
   ${WEBSTREAMER_SOURCES}
   ${WEBSTREAMER_HEADERS}
   ${WEBSTREAMER_API_HEADERS}
 )
 
-GENERATE_EXPORT_HEADER(webstreamer EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}/include/webstreamer/export.hpp")
+generate_export_header(
+  webstreamer
+  EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/include/webstreamer/export.hpp"
+)
 
-target_include_directories(webstreamer PUBLIC ${WEBSTREAMER_INCLUDE_DIRS})
+target_include_directories(
+  webstreamer
+  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 set_warning_levels_rwth(webstreamer)
 
