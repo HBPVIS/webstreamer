@@ -32,9 +32,9 @@ namespace webstreamer {
 
 EncodingPipeline::EncodingPipeline()
     : writing_frame_buffer_(&frame_buffers_[0]),
+      writing_frame_index_(0),
       encoding_frame_buffer_(&frame_buffers_[1]),
       encoding_frame_index_(0),
-      writing_frame_index_(0),
       swap_thread_(&EncodingPipeline::SwapThread, this) {}
 
 void EncodingPipeline::RegisterEncoderFactoryForCodec(Codec codec,
@@ -117,8 +117,6 @@ void EncodingPipeline::EncoderThread(Encoder* encoder) {
   while (true) {
     const std::size_t approximate_encoding_frame_index =
         encoding_frame_index_.load(std::memory_order_relaxed);
-
-    const auto now = std::chrono::high_resolution_clock::now();
 
     if (approximate_encoding_frame_index != last_encoded_frame_index_) {
 #if SHARED_MUTEX_SUPPORTED

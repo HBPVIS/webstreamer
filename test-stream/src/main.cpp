@@ -21,20 +21,21 @@
 //------------------------------------------------------------------------------
 
 #include <png.h>
-#include <cstdio>
 #include <cstdint>
+#include <cstdio>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
+#include "webstreamer/suppress_warnings.hpp"
 #include "webstreamer/webstreamer.hpp"
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
 #define snprintf _snprintf
 #endif
 
-using webstreamer::WebStreamer;
 using webstreamer::Codec;
 using webstreamer::StreamingProtocol;
+using webstreamer::WebStreamer;
 
 struct Image {
   int width;
@@ -47,8 +48,8 @@ bool read_png_file(const std::string& filename, Image* image);
 int main(int argc, const char** argv) {
   if (argc < 4) {
     std::cout
-      << "usage: test-stream [image_format] [image_count] [out_filename]"
-      << std::endl;
+        << "usage: test-stream [image_format] [image_count] [out_filename]"
+        << std::endl;
     return -1;
   }
 
@@ -74,14 +75,14 @@ int main(int argc, const char** argv) {
   return 0;
 }
 
-#pragma warning(disable:4611)
+SUPPRESS_WARNINGS_BEGIN
 bool read_png_file(const std::string& filename, Image* image) {
   if (image == nullptr) {
     std::cout << "read_png_file: invalid image pointer" << std::endl;
     return false;
   }
 
-  std::FILE *fp = std::fopen(filename.c_str(), "rb");
+  std::FILE* fp = std::fopen(filename.c_str(), "rb");
   if (!fp) {
     std::cout << "read_png_file: cannot open file" << std::endl;
     return false;
@@ -94,10 +95,8 @@ bool read_png_file(const std::string& filename, Image* image) {
     return false;
   }
 
-  png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING,
-    nullptr,
-    nullptr,
-    nullptr);
+  png_structp png_ptr =
+      png_create_read_struct(PNG_LIBPNG_VER_STRING, nullptr, nullptr, nullptr);
   if (!png_ptr) {
     std::cout << "read_png_file: cannot create read struct" << std::endl;
     return false;
@@ -134,7 +133,7 @@ bool read_png_file(const std::string& filename, Image* image) {
     return false;
   }
 
-  /*int number_of_passes = */png_set_interlace_handling(png_ptr);
+  /*int number_of_passes = */ png_set_interlace_handling(png_ptr);
   png_read_update_info(png_ptr, info_ptr);
 
   if (setjmp(png_jmpbuf(png_ptr))) {
@@ -160,4 +159,4 @@ bool read_png_file(const std::string& filename, Image* image) {
 
   return true;
 }
-#pragma warning(default:4611)
+SUPPRESS_WARNINGS_END

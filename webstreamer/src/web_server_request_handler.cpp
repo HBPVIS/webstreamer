@@ -22,13 +22,14 @@
 
 #include "webstreamer/web_server_request_handler.hpp"
 #include <fstream>
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPServerRequest.h"
 #include "Poco/Net/HTTPServerResponse.h"
 #include "Poco/Net/MediaType.h"
 #include "Poco/Path.h"
 #include "Poco/StreamCopier.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 #include "log.hpp"
 
 namespace webstreamer {

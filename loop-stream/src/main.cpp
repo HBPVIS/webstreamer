@@ -30,6 +30,7 @@
 #include "webstreamer/console_logger.hpp"
 #include "webstreamer/file_logger.hpp"
 #include "webstreamer/stop_watch.hpp"
+#include "webstreamer/suppress_warnings.hpp"
 #include "webstreamer/webstreamer.hpp"
 
 #if defined(_MSC_VER) && _MSC_VER < 1900
@@ -55,9 +56,9 @@ int main(int argc, const char** argv) {
   using webstreamer::StreamingProtocol;
   using webstreamer::WebStreamer;
 
-  if (argc < 7) {
+  if (argc < 6) {
     std::cout << "usage: test-stream [image_format] [image_count] [width] "
-                 "[height] [bitrate] [fps] (WebSocket|WebRTC)"
+                 "[height] [bitrate] [fps]"
               << std::endl;
     return -1;
   }
@@ -85,28 +86,15 @@ int main(int argc, const char** argv) {
   CreateImmortalLogListener<ConsoleLogger>(LogLevel::DEBUG);
   CreateImmortalLogListener<FileLogger>(LogLevel::VERBOSE);
   AsynchronousInputProcessor input_processor;
-  // Codec codec = Codec::H264;
-  StreamingProtocol protocol;
-  if (argc >= 8 && strcmp(argv[7], "WebSocket") == 0) {
-    protocol = StreamingProtocol::WEBSOCKET;
-    std::cout << "Using WebSockets!" << std::endl;
-  } else if (argc >= 8 && strcmp(argv[7], "WebRTC") == 0) {
-    protocol = StreamingProtocol::WEBRTC;
-    std::cout << "Using WebRTC!" << std::endl;
-  } else if (argc >= 8) {
-    std::cout << "Invalid streaming protocol!" << std::endl;
-  } else {
-    protocol = StreamingProtocol::WEBRTC;
-    std::cout << "Using WebRTC!" << std::endl;
-  }
   std::vector<Resolution> resolutions;
   if (width == 0 && height == 0) {
     resolutions = DEFAULT_RESOLUTIONS;
   } else {
     resolutions = {{width, height, bitrate, fps}};
   }
+  ../
 
-  WebStreamer web_streamer;
+      WebStreamer web_streamer;
   web_streamer.RegisterInputProcessor(&input_processor);
 
   const auto frame_interval =
@@ -134,7 +122,7 @@ int main(int argc, const char** argv) {
   return 0;
 }
 
-#pragma warning(disable : 4611)
+SUPPRESS_WARNINGS_BEGIN
 bool read_png_file(const std::string& filename, Image* image) {
   if (image == nullptr) {
     std::cout << "read_png_file: invalid image pointer" << std::endl;
@@ -218,4 +206,4 @@ bool read_png_file(const std::string& filename, Image* image) {
 
   return true;
 }
-#pragma warning(default : 4611)
+SUPPRESS_WARNINGS_END

@@ -26,14 +26,15 @@
 #ifdef WEBSTREAMER_ENABLE_WEBRTC
 
 #include <cstdint>
+#include <thread>
 #include "webstreamer/client.hpp"
 #include "webstreamer/export.hpp"
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/WebSocket.h"
 #include "webrtc/api/test/fakeconstraints.h"
 #include "webrtc/pc/peerconnectionfactory.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

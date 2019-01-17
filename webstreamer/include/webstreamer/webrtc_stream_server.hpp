@@ -27,12 +27,12 @@
 
 #include <thread>
 #include "webstreamer/export.hpp"
+#include "webstreamer/suppress_warnings.hpp"
 #include "webstreamer/websocket_server.hpp"
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Util/JSONConfiguration.h"
 #include "webrtc/pc/peerconnectionfactory.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

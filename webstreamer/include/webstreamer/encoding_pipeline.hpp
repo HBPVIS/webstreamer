@@ -68,6 +68,10 @@ class WEBSTREAMER_EXPORT EncodingPipeline {
 
   FrameBuffer frame_buffers_[2];
 
+  FrameBuffer* writing_frame_buffer_;
+  std::atomic<std::size_t> writing_frame_index_;
+  std::mutex writing_frame_buffer_mutex_;
+
   FrameBuffer* encoding_frame_buffer_;
   std::atomic<std::size_t> encoding_frame_index_;
 #if SHARED_MUTEX_SUPPORTED
@@ -75,10 +79,6 @@ class WEBSTREAMER_EXPORT EncodingPipeline {
 #else
   std::mutex encoding_frame_buffer_mutex_;
 #endif
-
-  FrameBuffer* writing_frame_buffer_;
-  std::atomic<std::size_t> writing_frame_index_;
-  std::mutex writing_frame_buffer_mutex_;
 
   std::thread swap_thread_;
 

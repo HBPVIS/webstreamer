@@ -26,12 +26,13 @@
 #include <functional>
 #include "log.hpp"
 #include "webstreamer/encoder.hpp"
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/JSON/Object.h"
 #include "Poco/JSON/Parser.h"
 #include "Poco/Net/NetException.h"
 #include "webrtc/api/jsep.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
@@ -131,8 +132,9 @@ void WebRTCStreamClient::OnFrameEncoded(const EncodedFrame& encoded_frame) {
           std::min(frame_size - bytes_sent, MAX_MESSAGE_CONTENT_SIZE);
       send_buffer_.AppendData(encoded_frame.data + bytes_sent, fragment_size);
       video_channel_->Send({send_buffer_, true});
-	  LOGV("Sent ", send_buffer_.size(), " bytes");
-	  LOGV("Buffered data in video channel: ", video_channel_->buffered_amount());
+      LOGV("Sent ", send_buffer_.size(), " bytes");
+      LOGV("Buffered data in video channel: ",
+           video_channel_->buffered_amount());
 
       bytes_sent += fragment_size;
     }

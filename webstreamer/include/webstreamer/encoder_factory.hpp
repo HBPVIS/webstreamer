@@ -26,10 +26,9 @@
 #include <memory>
 #include "webstreamer/encoder.hpp"
 #include "webstreamer/export.hpp"
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/JSON/Object.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

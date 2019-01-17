@@ -21,13 +21,14 @@
 //------------------------------------------------------------------------------
 
 #include "webstreamer/websocket_server_request_handler.hpp"
+#include "webstreamer/suppress_warnings.hpp"
 #include "webstreamer/websocket_server.hpp"
-#pragma warning(push, 0)
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPServerRequest.h"
 #include "Poco/Net/HTTPServerResponse.h"
 #include "Poco/Net/NetException.h"
 #include "Poco/Net/WebSocket.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 #include "log.hpp"
 
 namespace webstreamer {

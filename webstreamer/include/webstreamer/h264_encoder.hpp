@@ -26,12 +26,13 @@
 #include <cstddef>
 #include <cstdint>
 #include <vector>
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "x264.h"
 extern "C" {
 #include "libswscale/swscale.h"
 }
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 #include "webstreamer/encoder.hpp"
 #include "webstreamer/export.hpp"
 #include "webstreamer/frame_buffer.hpp"

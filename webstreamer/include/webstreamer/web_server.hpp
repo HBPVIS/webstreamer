@@ -24,11 +24,11 @@
 #define WEBSTREAMER_INCLUDE_WEBSTREAMER_WEB_SERVER_HPP_
 
 #include <cstdint>
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPServer.h"
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

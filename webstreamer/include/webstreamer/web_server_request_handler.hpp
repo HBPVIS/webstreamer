@@ -23,11 +23,11 @@
 #ifndef WEBSTREAMER_INCLUDE_WEBSTREAMER_WEB_SERVER_REQUEST_HANDLER_HPP_
 #define WEBSTREAMER_INCLUDE_WEBSTREAMER_WEB_SERVER_REQUEST_HANDLER_HPP_
 
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPRequestHandler.h"
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

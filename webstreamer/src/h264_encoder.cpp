@@ -43,8 +43,8 @@ H264Encoder::H264Encoder(int width, int height, int framerate, int bitrate)
       input_height_(0),
       output_width_(width),
       output_height_(height),
-      bitrate_(bitrate),
       framerate_(framerate),
+      bitrate_(bitrate),
       needs_reset_(true),
       encoder_(nullptr),
       sws_context_(nullptr) {}
@@ -59,11 +59,10 @@ H264Encoder::~H264Encoder() {
 }
 
 bool H264Encoder::IsCompatible(const CodecOptions& options) {
-	return
-		options.optValue<int>("width", output_width_) == output_width_ &&
-		options.optValue<int>("height", output_height_) == output_height_ &&
-		options.optValue<int>("framerate", framerate_) == framerate_ &&
-		options.optValue<int>("bitrate", bitrate_) == bitrate_;
+  return options.optValue<int>("width", output_width_) == output_width_ &&
+         options.optValue<int>("height", output_height_) == output_height_ &&
+         options.optValue<int>("framerate", framerate_) == framerate_ &&
+         options.optValue<int>("bitrate", bitrate_) == bitrate_;
 }
 
 void H264Encoder::Reset() {
@@ -131,8 +130,8 @@ EncodedFrame H264Encoder::EncodeFrame(const FrameBuffer& frame_buffer) {
     return encoded_frame;
   }
 
-  if (frame_buffer.width() != input_width_ ||
-      frame_buffer.height() != input_height_) {
+  if (frame_buffer.width() != static_cast<std::size_t>(input_width_) ||
+      frame_buffer.height() != static_cast<std::size_t>(input_height_)) {
     input_width_ = static_cast<int>(frame_buffer.width());
     input_height_ = static_cast<int>(frame_buffer.height());
     needs_reset_ = true;
@@ -150,7 +149,8 @@ EncodedFrame H264Encoder::EncodeFrame(const FrameBuffer& frame_buffer) {
   const int dst_height = sws_scale(
       sws_context_, src_slice, src_stride, src_slice_y, src_slice_h,
       encoder_input_picture_.img.plane, encoder_input_picture_.img.i_stride);
-  encoder_input_picture_.i_type = has_new_client() ? X264_TYPE_KEYFRAME : X264_TYPE_AUTO;
+  encoder_input_picture_.i_type =
+      has_new_client() ? X264_TYPE_KEYFRAME : X264_TYPE_AUTO;
 
   if (dst_height != output_height_) {
     LOGW("Invalid height");

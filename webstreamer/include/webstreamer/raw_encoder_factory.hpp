@@ -24,10 +24,10 @@
 #define WEBSTREAMER_INCLUDE_WEBSTREAMER_RAW_ENCODER_FACTORY_HPP_
 
 #include "webstreamer/encoder_factory.hpp"
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
