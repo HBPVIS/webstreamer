@@ -52,22 +52,24 @@ set_warning_levels_rwth(webstreamer)
 
 # --- dependencies ---
 # Poco C++ libraries
-target_include_directories(webstreamer PUBLIC ${CONAN_INCLUDE_DIRS})
-# target_link_libraries(webstreamer PUBLIC ${CONAN_LIBS})
-# target_include_directories(webstreamer PUBLIC ${CONAN_LIBS})
-target_link_libraries(webstreamer ${CONAN_LIBS})
+find_package(Poco COMPONENTS Util Net REQUIRED)
+target_link_libraries(webstreamer
+  PUBLIC Poco::JSON
+  PUBLIC Poco::Net
+  PUBLIC Poco::Util
+)
 
-# # x264
-# find_package(x264 REQUIRED)
-# target_include_directories(webstreamer PUBLIC ${X264_INCLUDE_DIRS})
-# target_link_libraries(webstreamer ${X264_LIBRARIES})
-# add_definitions(${X264_DEFINITIONS})
+# x264
+find_package(x264 REQUIRED)
+target_include_directories(webstreamer PUBLIC ${X264_INCLUDE_DIRS})
+target_link_libraries(webstreamer PUBLIC ${X264_LIBRARIES})
+target_compile_definitions(webstreamer PUBLIC ${X264_DEFINITIONS})
 
-# # FFmpeg
-# find_package(FFmpeg COMPONENTS SWSCALE REQUIRED)
-# target_include_directories(webstreamer PUBLIC ${FFMPEG_INCLUDE_DIRS})
-# target_link_libraries(webstreamer ${FFMPEG_LIBRARIES})
-# add_definitions(${FFMPEG_DEFINITIONS})
+# FFmpeg
+find_package(FFmpeg COMPONENTS SWSCALE REQUIRED)
+target_include_directories(webstreamer PUBLIC ${FFMPEG_INCLUDE_DIRS})
+target_link_libraries(webstreamer PUBLIC ${FFMPEG_LIBRARIES})
+target_compile_definitions(webstreamer PUBLIC ${FFMPEG_DEFINITIONS})
 
 # # LibSourcey
 # find_package(LibSourcey REQUIRED)

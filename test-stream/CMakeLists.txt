@@ -37,14 +37,10 @@ set_warning_levels_rwth(test-stream)
 
 # --- dependencies --
 # webstreamer
-target_include_directories(test-stream PUBLIC webstreamer)
-target_link_libraries(test-stream webstreamer)
+target_link_libraries(test-stream PUBLIC webstreamer)
 
 # libPNG
-# target_include_directories(test-stream PUBLIC CONAN_PKG::libpng)
-target_link_libraries(test-stream ${CONAN_LIBS})
-# find_package(PNG REQUIRED)
-
-# target_include_directories(test-stream PUBLIC ${PNG_INCLUDE_DIRS})
-# target_link_libraries(test-stream ${PNG_LIBRARIES})
-# add_definitions(${PNG_DEFINITIONS})
+find_package(PNG REQUIRED)
+target_include_directories(test-stream PUBLIC ${PNG_INCLUDE_DIRS})
+target_link_libraries(test-stream PUBLIC ${PNG_LIBRARIES})
+target_compile_definitions(test-stream PUBLIC ${PNG_DEFINITIONS})
