@@ -92,9 +92,8 @@ int main(int argc, const char** argv) {
   } else {
     resolutions = {{width, height, bitrate, fps}};
   }
-  ../
 
-      WebStreamer web_streamer;
+  WebStreamer web_streamer;
   web_streamer.RegisterInputProcessor(&input_processor);
 
   const auto frame_interval =
