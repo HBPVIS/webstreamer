@@ -3,20 +3,44 @@
 *Web Streamer* is Copyright (c) 2017 RWTH Aachen University, Germany,
 Virtual Reality & Immersive Visualization Group.
 
-## Dependencies
-
-*Web Streamer* uses conan to manage it's external depencies. All dependencies are downloaded automatically while running cmake.
-
 ## Prerequisites
 
 * *CMake* >= 3.1 (https://cmake.org/)
-* *Conan*: `pip install conan`
+
+## Dependencies
+
+* [POCO](https://github.com/pocoproject/poco)
+* [libswscale](https://ffmpeg.org/libswscale.html)
+* [x264](https://www.videolan.org/developers/x264.html)
+* [WebRTC](https://webrtc.org/) (optional)
+* [libpng](http://www.libpng.org/) (for tests)
+
+On ubuntu you can install libswscale, x264 and libpng through the package manager:
+```
+sudo apt install libx264-dev
+sudo apt install libswscale-dev
+sudo apt install libpng-dev
+```
+
+Unfortunately, there is no package for poco, you have to build it from source using the following commands:
+```
+git clone https://github.com/pocoproject/poco.git
+git checkout poco-1.9.0-release
+mkdir build-linux
+cd build-linux
+cmake -DCMAKE_PREFIX_PATH=${POCO_INSTALL_PATH} ..
+make
+make install
+```
+Make sure to replace `${POCO_INSTALL_PATH}` with the path where you want to install the libraries. This path must also be passed to cmake call of webstreamer. Remark: for some reason, multi-threaded builds (`make -j`) will fail on my machine.
+
+Precompiled versions of WebRTC can be found [here](https://sourcey.com/precompiled-webrtc-libraries).
 
 ## Building
 
 1. `mkdir build`
 2. `cd build`
-3. `cmake ..`
+3. `cmake -DCMAKE_PREFIX_PATH=${POCO_INSTALL_PATH} ..`
 4. `cmake --build .`
 
 ## Test
