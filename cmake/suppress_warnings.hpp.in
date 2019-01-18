@@ -20,8 +20,8 @@
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 //------------------------------------------------------------------------------
 
-#ifndef CONTRA_SUPPRESS_WARNINGS_
-#define CONTRA_SUPPRESS_WARNINGS_
+#ifndef WEBSTREAMER_SUPPRESS_WARNINGS_
+#define WEBSTREAMER_SUPPRESS_WARNINGS_
 
 // clang-format off
 
@@ -75,4 +75,4 @@
 
 // clang-format on
 
-#endif // CONTRA_SUPPRESS_WARNINGS_
+#endif // WEBSTREAMER_SUPPRESS_WARNINGS_
