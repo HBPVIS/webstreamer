@@ -22,9 +22,10 @@
 
 #include "webstreamer/websocket_stream_client.hpp"
 #include "log.hpp"
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/NetException.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
@@ -67,9 +68,8 @@ void WebSocketStreamClient::SendData(DataType data_type, const void* data,
   std::memcpy(buffer_.data(), &data_type, 4);
   std::memcpy(buffer_.data() + 4, data, data_size);
   try {
-    if (web_socket_.sendBytes(buffer_.data(),
-                              static_cast<int>(buffer_.size())) !=
-        buffer_.size()) {
+    const int buffer_size = static_cast<int>(buffer_.size());
+    if (web_socket_.sendBytes(buffer_.data(), buffer_size) != buffer_size) {
       LOGE("Client ", address_, " failed to send bytes");
       Die();
     }

@@ -24,48 +24,52 @@ file(GLOB WEBSTREAMER_SOURCES src/*.cpp)
 file(GLOB WEBSTREAMER_HEADERS src/*.hpp)
 file(GLOB WEBSTREAMER_API_HEADERS include/webstreamer/*.hpp)
 
-set(WEBSTREAMER_INCLUDE_DIRS 
-  ${CMAKE_CURRENT_SOURCE_DIR}/include
-  ${PROJECT_BINARY_DIR}
-  CACHE PATH "Path to public headers in webstreamer's source tree."
-)
-
 add_library(webstreamer
   ${WEBSTREAMER_SOURCES}
   ${WEBSTREAMER_HEADERS}
   ${WEBSTREAMER_API_HEADERS}
 )
+
 add_test(NAME "cpplint@webstreamer" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplint.py"
   ${WEBSTREAMER_SOURCES}
   ${WEBSTREAMER_HEADERS}
   ${WEBSTREAMER_API_HEADERS}
 )
 
-GENERATE_EXPORT_HEADER(webstreamer EXPORT_FILE_NAME "${CMAKE_CURRENT_SOURCE_DIR}/include/webstreamer/export.hpp")
+generate_export_header(
+  webstreamer
+  EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/include/webstreamer/export.hpp"
+)
 
-target_include_directories(webstreamer PUBLIC ${WEBSTREAMER_INCLUDE_DIRS})
+target_include_directories(
+  webstreamer
+  PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/include
+  PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
-SetWarningLevelRWTH(webstreamer)
+set_warning_levels_rwth(webstreamer)
 
 
 # --- dependencies ---
 # Poco C++ libraries
-target_include_directories(webstreamer PUBLIC ${CONAN_INCLUDE_DIRS})
-# target_link_libraries(webstreamer PUBLIC ${CONAN_LIBS})
-# target_include_directories(webstreamer PUBLIC ${CONAN_LIBS})
-target_link_libraries(webstreamer ${CONAN_LIBS})
+find_package(Poco COMPONENTS Util Net REQUIRED)
+target_link_libraries(webstreamer
+  PUBLIC Poco::JSON
+  PUBLIC Poco::Net
+  PUBLIC Poco::Util
+)
 
-# # x264
-# find_package(x264 REQUIRED)
-# target_include_directories(webstreamer PUBLIC ${X264_INCLUDE_DIRS})
-# target_link_libraries(webstreamer ${X264_LIBRARIES})
-# add_definitions(${X264_DEFINITIONS})
+# x264
+find_package(x264 REQUIRED)
+target_include_directories(webstreamer PUBLIC ${X264_INCLUDE_DIRS})
+target_link_libraries(webstreamer PUBLIC ${X264_LIBRARIES})
+target_compile_definitions(webstreamer PUBLIC ${X264_DEFINITIONS})
 
-# # FFmpeg
-# find_package(FFmpeg COMPONENTS SWSCALE REQUIRED)
-# target_include_directories(webstreamer PUBLIC ${FFMPEG_INCLUDE_DIRS})
-# target_link_libraries(webstreamer ${FFMPEG_LIBRARIES})
-# add_definitions(${FFMPEG_DEFINITIONS})
+# FFmpeg
+find_package(FFmpeg COMPONENTS SWSCALE REQUIRED)
+target_include_directories(webstreamer PUBLIC ${FFMPEG_INCLUDE_DIRS})
+target_link_libraries(webstreamer PUBLIC ${FFMPEG_LIBRARIES})
+target_compile_definitions(webstreamer PUBLIC ${FFMPEG_DEFINITIONS})
 
 # # LibSourcey
 # find_package(LibSourcey REQUIRED)

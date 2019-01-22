@@ -34,21 +34,21 @@
 #include <webstreamer/webstreamer.hpp>
 #include "log.hpp"
 
-#pragma warning(push, 0)
-#pragma warning(disable : 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/JSON/Parser.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
 WebStreamer::WebStreamer(const std::string& configuration_path)
     : configuration_(configuration_path),
-      current_input_processor_(nullptr),
-      clients_(&encoding_pipeline_),
       web_server_(&stream_config_,
                   configuration_.getString("webServer.rootDir", ""),
                   static_cast<std::uint16_t>(
                       configuration_.getInt("webServer.port", 80))),
+      current_input_processor_(nullptr),
+      clients_(&encoding_pipeline_),
       websocket_stream_(&configuration_, &stream_config_, &clients_),
 #ifdef WEBSTREAMER_ENABLE_WEBRTC
       webrtc_stream_(&configuration_, &stream_config_, &clients_),

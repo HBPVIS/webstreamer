@@ -56,7 +56,7 @@ enum class MouseButtons : std::uint8_t {
   FOURTH = 8,
   FIFTH = 16
 };
-WEBSTREAMER_CONVERT_TYPED_ENUM_TO_FLAGS(MouseButtons);
+WEBSTREAMER_CONVERT_TYPED_ENUM_TO_FLAGS(MouseButtons)
 
 class WEBSTREAMER_EXPORT MouseEvent : public Event {
  public:

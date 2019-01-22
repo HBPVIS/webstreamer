@@ -36,7 +36,7 @@ add_test(NAME "cpplint@qt_inputprocessor/tests" COMMAND "python" "${CMAKE_SOURCE
   ${QT_INPUTPROCESSOR_TEST_HEADERS}
 )
 
-SetWarningLevelRWTH(qt_inputprocessor_tests)
+set_warning_levels_rwth(qt_inputprocessor_tests)
 
 
 # --- dependencies ---

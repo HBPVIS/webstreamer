@@ -28,9 +28,10 @@
 #include <webstreamer/encoding_pipeline.hpp>
 #include <webstreamer/input_processor.hpp>
 #include <webstreamer/resolution.hpp>
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 #include "webstreamer/h264_encoder_factory.hpp"
 #include "webstreamer/raw_encoder_factory.hpp"
 #include "webstreamer/web_server.hpp"

@@ -143,17 +143,20 @@ void ClientSet::ProcessEvents() {
         break;
       }
 
-	  case EventType::MOUSE_INPUT:
-		  if (event.client->owns_input_token_ && input_processor_ != nullptr) {
-			  input_processor_->PushEvent(std::move(event.ptr));
-		  }
-		  break;
+      case EventType::MOUSE_INPUT:
+        if (event.client->owns_input_token_ && input_processor_ != nullptr) {
+          input_processor_->PushEvent(std::move(event.ptr));
+        }
+        break;
 
       case EventType::KEYBOARD_INPUT:
         if (event.client->owns_input_token_ && input_processor_ != nullptr) {
           input_processor_->PushEvent(std::move(event.ptr));
         }
-		break;
+        break;
+
+      case EventType::STREAM_CONFIG_CHANGED:
+        break;
 
       case EventType::UNKNOWN:
         LOGI("Unknown event type for client ", event.client);

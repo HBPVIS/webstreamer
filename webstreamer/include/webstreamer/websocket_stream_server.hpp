@@ -24,9 +24,10 @@
 #define WEBSTREAMER_INCLUDE_WEBSTREAMER_WEBSOCKET_STREAM_SERVER_HPP_
 
 #include "websocket_server.hpp"
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

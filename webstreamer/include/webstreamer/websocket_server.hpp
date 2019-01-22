@@ -25,10 +25,11 @@
 
 #include <cstdint>
 #include "webstreamer/export.hpp"
-#pragma warning(push, 0)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPServer.h"
 #include "Poco/Net/WebSocket.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

@@ -3,14 +3,27 @@
 *Web Streamer* is Copyright (c) 2017 RWTH Aachen University, Germany,
 Virtual Reality & Immersive Visualization Group.
 
-## Dependencies
-
-*Web Streamer* uses conan to manage it's external depencies. All dependencies are downloaded automatically while running cmake.
-
 ## Prerequisites
 
 * *CMake* >= 3.1 (https://cmake.org/)
-* *Conan*: `pip install conan`
+
+## Dependencies
+
+* [POCO](https://github.com/pocoproject/poco)
+* [libswscale](https://ffmpeg.org/libswscale.html)
+* [x264](https://www.videolan.org/developers/x264.html)
+* [WebRTC](https://webrtc.org/) (optional)
+* [libpng](http://www.libpng.org/) (for tests)
+
+On Ubuntu you can install POCO, libswscale, x264 and libpng through the package manager:
+```
+sudo apt install libpoco-dev
+sudo apt install libx264-dev
+sudo apt install libswscale-dev
+sudo apt install libpng-dev
+```
+
+Precompiled versions of WebRTC can be found [here](https://sourcey.com/precompiled-webrtc-libraries).
 
 ## Building
 

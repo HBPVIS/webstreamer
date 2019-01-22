@@ -29,10 +29,10 @@
 #include <vector>
 #include "webstreamer/export.hpp"
 #include "webstreamer/stop_watch.hpp"
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Util/JSONConfiguration.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
@@ -68,9 +68,7 @@ class WEBSTREAMER_EXPORT Encoder {
 
   void PushFrame(const FrameBuffer& frame_buffers);
 
-  inline StopWatch<>::Duration idle_time() {
-    return idle_time_.elapsed_time();
-  }
+  inline StopWatch<>::Duration idle_time() { return idle_time_.elapsed_time(); }
 
  protected:
   inline bool has_new_client() const { return has_new_client_; }

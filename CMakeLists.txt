@@ -32,12 +32,6 @@ include(CTest)
 include(GenerateExportHeader)
 include(WarningLevels)
 
-include(conan)
-execute_process(COMMAND conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan False OUTPUT_QUIET)
-conan_cmake_run(CONANFILE conanfile.txt BUILD missing)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-
 add_subdirectory(./webstreamer)
 if (${BUILD_QT_INPUTPROCESSOR})
   add_subdirectory(./qt_inputprocessor)

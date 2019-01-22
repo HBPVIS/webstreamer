@@ -24,10 +24,10 @@
 #define WEBSTREAMER_INCLUDE_WEBSTREAMER_STD_FUNCTION_DELEGATE_HPP_
 
 #include <functional>
-#pragma warning(push, 0)
-#pragma warning(disable: 4702)
+#include "webstreamer/suppress_warnings.hpp"
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/AbstractDelegate.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 

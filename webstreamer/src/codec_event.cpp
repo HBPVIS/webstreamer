@@ -4,9 +4,9 @@
 #include <sstream>
 #include "log.hpp"
 
-#pragma warning(push, 0)
+SUPPRESS_WARNINGS_BEGIN
 #include "Poco/JSON/Parser.h"
-#pragma warning(pop)
+SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
