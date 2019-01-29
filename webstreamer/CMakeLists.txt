@@ -24,11 +24,19 @@ file(GLOB WEBSTREAMER_SOURCES src/*.cpp)
 file(GLOB WEBSTREAMER_HEADERS src/*.hpp)
 file(GLOB WEBSTREAMER_API_HEADERS include/webstreamer/*.hpp)
 
-add_library(webstreamer
-  ${WEBSTREAMER_SOURCES}
-  ${WEBSTREAMER_HEADERS}
-  ${WEBSTREAMER_API_HEADERS}
-)
+if (${BUILD_SHARED_LIBS})
+  add_library(webstreamer SHARED
+    ${WEBSTREAMER_SOURCES}
+    ${WEBSTREAMER_HEADERS}
+    ${WEBSTREAMER_API_HEADERS}
+  )
+else ( )
+  add_library(webstreamer
+    ${WEBSTREAMER_SOURCES}
+    ${WEBSTREAMER_HEADERS}
+    ${WEBSTREAMER_API_HEADERS}
+  )
+endif ( )
 
 add_test(NAME "cpplint@webstreamer" COMMAND "python" "${CMAKE_SOURCE_DIR}/cpplint.py"
   ${WEBSTREAMER_SOURCES}
