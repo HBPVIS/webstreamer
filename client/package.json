@@ -4,7 +4,8 @@
   "description": "Web client for the webstreamer library",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -21,19 +22,21 @@
   "author": "Simon Oehrl",
   "license": "Apache-2.0",
   "devDependencies": {
-    "@types/jquery": "^3.3.1",
-    "@types/jqueryui": "^1.12.2",
+    "@types/jquery": "^3.3.22",
+    "@types/jqueryui": "^1.12.6",
     "broadway-player": "^0.1.1",
-    "css-loader": "^0.28.10",
-    "file-loader": "^1.1.11",
-    "html-webpack-plugin": "^2.28.0",
+    "css-loader": "^1.0.1",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
-    "less": "^3.0.1",
+    "less": "^3.8.1",
     "less-loader": "^4.1.0",
-    "style-loader": "^0.20.3",
-    "ts-loader": "^2.0.3",
-    "typescript": "^2.3.2",
-    "webpack": "^2.7.0"
+    "rtcpeerconnection": "^8.4.0",
+    "style-loader": "^0.23.1",
+    "ts-loader": "^5.3.0",
+    "typescript": "^3.1.4",
+    "webpack": "^4.23.1",
+    "webpack-cli": "^3.1.2"
   }
 }

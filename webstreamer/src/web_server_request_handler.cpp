@@ -23,6 +23,8 @@
 #include "webstreamer/web_server_request_handler.hpp"
 #include <fstream>
 #include "webstreamer/suppress_warnings.hpp"
+#include "webstreamer/access_manager.hpp"
+#include "webstreamer/custom_http_action_handler.hpp"
 SUPPRESS_WARNINGS_BEGIN
 #include "Poco/Net/HTTPServerRequest.h"
 #include "Poco/Net/HTTPServerResponse.h"
@@ -45,10 +47,18 @@ void WebServerRequestHandler::handleRequest(
   (void)request;
   (void)response;
 
-  if (request.getURI() == "/stream_config.json") {
+  const std::string
+  address = request.clientAddress ( ).host ( ).toString ( );
+
+  if ( !AccessManager::getInstance ( ).addressIsAllowed ( address ))
+  {
+    response.setStatus(Poco::Net::HTTPResponse::HTTP_FORBIDDEN);
+  } else if (request.getURI() == "/stream_config.json") {
     response.setStatus(Poco::Net::HTTPResponse::HTTP_OK);
     response.setContentType("application/json");
     stream_config_->save(response.send());
+  } else if (ActionHandlerManager::getInstance().handleActionRequest(request, response)) {
+      return;
   } else {
     std::ifstream file(root_dir_ + request.getURI(), std::ios::binary);
     if (!file.is_open()) {

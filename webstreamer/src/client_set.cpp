@@ -29,6 +29,7 @@
 #include "webstreamer/encoding_pipeline.hpp"
 #include "webstreamer/input_processor.hpp"
 #include "webstreamer/stop_watch.hpp"
+#include "webstreamer/custom_packet_handler.hpp"
 
 namespace webstreamer {
 
@@ -112,6 +113,11 @@ void ClientSet::ProcessEvents() {
 
   for (auto& event : events_) {
     LOGI("Received Event: ", event.ptr->ToString());
+
+    if (PacketHandlerManager::getInstance().handlePacket(*event.client, event.ptr))
+    {
+      continue;
+    }
 
     switch (event.ptr->type()) {
       case EventType::AQUIRE_INPUT:

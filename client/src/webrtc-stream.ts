@@ -63,8 +63,13 @@ export class WebRTCStream extends Stream {
                         }
                     } else if (channel.label === "event") {
                         this.eventChannel = channel;
-                        this.eventChannel.onmessage = () => {
-                            console.info("Received event message");
+                        this.eventChannel.onmessage = (message) => {
+                            //console.info("Received event message");
+														WebRTCStream.BlobToArrayBuffer(
+                                message.data,
+                                (buffer) => {
+                                    this.receiveEventData(new Uint8Array(buffer));
+                                });
                         };
                         this.eventChannel.onopen = () => {
                             if (this.videoChannel && this.videoChannel.readyState === "open") {
@@ -191,7 +196,7 @@ export class WebRTCStream extends Stream {
     private static BlobToArrayBuffer(blob: Blob, callback: (arrayBuffer: ArrayBuffer) => void) {
         const fileReader = new FileReader();
         fileReader.onload = () => {
-            callback(fileReader.result);
+            callback(<ArrayBuffer>fileReader.result);
         };
         fileReader.readAsArrayBuffer(blob);
 

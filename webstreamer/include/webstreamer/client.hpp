@@ -75,6 +75,7 @@ class WEBSTREAMER_EXPORT Client {
   virtual void OnCodecSwitched(Codec codec, const CodecOptions& options) = 0;
   virtual void SendEvent(const Event& event) = 0;
   inline void SendEvent(Event::Ptr event) { SendEvent(*event.get()); }
+  inline bool OwnsInputToken ( ) { return owns_input_token_; }
 
  protected:
   // The switch does not happen immediately. Wait for the corresponding call
