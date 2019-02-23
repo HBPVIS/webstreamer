@@ -135,7 +135,11 @@ bool read_png_file(const std::string& filename, Image* image) {
   }
 
   png_byte header[8];
-  fread(header, 1, 8, fp);
+  auto r = fread(header, 1, 8, fp);
+  if ( r != 1 ) {
+    std::cerr << "read_png_file: error reading header" << std::endl;
+    return false;
+  }
   if (png_sig_cmp(header, 0, 8)) {
     std::cout << "read_png_file: invalid header" << std::endl;
     return false;
