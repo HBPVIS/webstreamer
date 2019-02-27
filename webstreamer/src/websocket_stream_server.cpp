@@ -24,15 +24,17 @@
 #include "log.hpp"
 #include "webstreamer/client_set.hpp"
 #include "webstreamer/websocket_stream_client.hpp"
+#include "webstreamer/access_manager.hpp"
 
 namespace webstreamer {
 
 WebSocketStreamServer::WebSocketStreamServer(
     const Poco::Util::JSONConfiguration* webstreamer_configuration,
-    Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients)
+    Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients,
+    int inputPort)
     : WebSocketServer(
-          static_cast<std::uint16_t>(webstreamer_configuration->getUInt(
-              "streams.webSocketStream.port", 8080))),
+          inputPort == -1 ? static_cast<std::uint16_t>(webstreamer_configuration->getUInt(
+              "streams.webSocketStream.port", 8080)) : inputPort),
       stream_configuration_(stream_configuration),
       clients_(clients) {
   stream_configuration_->setBool("streams.webSocket.supported", true);
@@ -45,7 +47,13 @@ WebSocketStreamServer::WebSocketStreamServer(
 }
 
 void WebSocketStreamServer::OnConnect(const Poco::Net::WebSocket& web_socket) {
-  clients_->Insert<WebSocketStreamClient>(std::move(web_socket));
+
+  const std::string address = web_socket.peerAddress ( ).host ( ).toString ( );
+
+  if ( AccessManager::getInstance ( ).addressIsAllowed ( address ))
+  {
+    clients_->Insert<WebSocketStreamClient>(std::move(web_socket));
+  }
 }
 
 }  // namespace webstreamer

@@ -41,20 +41,27 @@ SUPPRESS_WARNINGS_END
 
 namespace webstreamer {
 
-WebStreamer::WebStreamer(const std::string& configuration_path)
+WebStreamer::WebStreamer(int webPort,
+                         int webSocketPort,
+                         int webRtcPort,
+                         const std::string& configuration_path)
     : configuration_(configuration_path),
       web_server_(&stream_config_,
                   configuration_.getString("webServer.rootDir", ""),
-                  static_cast<std::uint16_t>(
-                      configuration_.getInt("webServer.port", 80))),
+                  webPort == -1? static_cast<std::uint16_t>(
+                      configuration_.getInt("webServer.port", 80)) : webPort),
       current_input_processor_(nullptr),
       clients_(&encoding_pipeline_),
-      websocket_stream_(&configuration_, &stream_config_, &clients_),
+      websocket_stream_(&configuration_, &stream_config_, &clients_, webSocketPort),
 #ifdef WEBSTREAMER_ENABLE_WEBRTC
-      webrtc_stream_(&configuration_, &stream_config_, &clients_),
+      webrtc_stream_(&configuration_, &stream_config_, &clients_, webRtcPort),
 #endif
       raw_encoder_factory_(&configuration_, &stream_config_),
       h264_encoder_factory_(&configuration_, &stream_config_) {
+
+#ifndef WEBSTREAMER_ENABLE_WEBRTC
+  std::cout << "No webrtc support. Designed port was " << webRtcPort << std::endl;
+#endif
   stream_config_.propertyChanged +=
       StdFunctionDelegate<const Poco::Util::AbstractConfiguration::KeyValue>(
           [this](const void*,

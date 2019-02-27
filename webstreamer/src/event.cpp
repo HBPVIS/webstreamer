@@ -25,6 +25,7 @@
 #include "webstreamer/codec_event.hpp"
 #include "webstreamer/mouse_event.hpp"
 #include "webstreamer/keyboard_event.hpp"
+#include "webstreamer/custom_packet_handler.hpp"
 
 namespace webstreamer {
 
@@ -94,7 +95,7 @@ Event::Ptr DeserializeEvent(const void* data, std::size_t size_in_bytes) {
 		return std::make_unique<KeyboardEvent>(data, size_in_bytes);
 
     default:
-      return std::make_unique<Event>(EventType::UNKNOWN);
+      return PacketHandlerManager::getInstance().decodePacket(data, size_in_bytes);
   }
 }
 

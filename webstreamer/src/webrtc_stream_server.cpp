@@ -26,15 +26,17 @@
 #include "webrtc/pc/peerconnectionfactory.h"
 #include "webstreamer/client_set.hpp"
 #include "webstreamer/webrtc_stream_client.hpp"
+#include "webstreamer/access_manager.hpp"
 
 namespace webstreamer {
 
 WebRTCStreamServer::WebRTCStreamServer(
     const Poco::Util::JSONConfiguration* webstreamer_configuration,
-    Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients)
+    Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients,
+    int inputPort)
     : WebSocketServer(
-          static_cast<std::uint16_t>(webstreamer_configuration->getUInt(
-              "streams.webRTCStream.port", 8081))),
+          inputPort == -1 ? static_cast<std::uint16_t>(webstreamer_configuration->getUInt(
+              "streams.webRTCStream.port", 8081)) : inputPort),
       stream_configuration_(stream_configuration),
       clients_(clients),
       signaling_thread_(&WebRTCStreamServer::SignalingThread, this) {
@@ -49,9 +51,15 @@ WebRTCStreamServer::WebRTCStreamServer(
 
 void WebRTCStreamServer::OnConnect(const Poco::Net::WebSocket& web_socket) {
   // TODO(Simon): Make peer_connection_factory_ thread safe
-  clients_->Insert<WebRTCStreamClient>(
+
+  const std::string address = web_socket.peerAddress ( ).host ( ).toString ( );
+
+  if ( AccessManager::getInstance ( ).addressIsAllowed ( address ))
+  {
+    clients_->Insert<WebRTCStreamClient>(
       std::move(web_socket), peer_connection_factory_.get(),
       webrtc::PeerConnectionInterface::RTCConfiguration{});
+  }
 }
 
 void WebRTCStreamServer::SignalingThread() {

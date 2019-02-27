@@ -39,7 +39,7 @@ export class InputBar {
                 });
             }
         });
-        $("#input-button").checkboxradio({
+        (<any>$("#input-button")).checkboxradio({
             icon: false
         });
         $("#input-button").prop("checked", false);

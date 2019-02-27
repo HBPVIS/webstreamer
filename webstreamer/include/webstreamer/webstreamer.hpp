@@ -55,6 +55,9 @@ const std::vector<Resolution> DEFAULT_RESOLUTIONS = {{426, 240, 1050, 60},
 class WEBSTREAMER_EXPORT WebStreamer final {
  public:
   WebStreamer(
+      int webPort = -1,
+      int webSocketPort = -1,
+      int webRtcPort = -1,
       const std::string& configuration_path = "webstreamer_config.json");
 
   InputProcessor* RegisterInputProcessor(InputProcessor* input_processor);

@@ -1,4 +1,5 @@
 import { Codec, getCodecId } from "./decoder";
+import { Clipboard } from "./clipboard"
 
 export enum EventType {
     Unknown = 0x0,
@@ -16,6 +17,8 @@ export enum EventType {
     // 0x50 - 0x5F: Input events
     MouseInput = 0x50,
     KeyboardInput = 0x51,
+		ClipboardInput = 0x52,
+		RequestClipboard = 0x53
 }
 
 interface IEvent {
@@ -65,7 +68,13 @@ export interface IKeyboardInputEvent extends IEvent {
     key: string;
 }
 
-export type Event = IInvalidEvent | IEmptyEvent | IChangeCodecEvent | IMouseInputEvent | IKeyboardInputEvent;
+export interface IClipboardEvent extends IEvent {
+	type: EventType.ClipboardInput;
+	size: number;
+	content: string;
+}
+
+export type Event = IInvalidEvent | IEmptyEvent | IChangeCodecEvent | IMouseInputEvent | IKeyboardInputEvent | IClipboardEvent;
 
 export function getEventString(event: Event) {
     switch (event.type) {
@@ -83,6 +92,9 @@ export function getEventString(event: Event) {
 
         case EventType.KeyboardInput:
             return "KeyboardInput(" + KeyboardAction[event.action] + "," + event.code + "," + event.key + ")";
+
+		case EventType.ClipboardInput:
+			return "ClipboardInput(" + event.size + ","+event.content+")";
 
         case EventType.Unknown:
             return null;
@@ -170,6 +182,33 @@ export function serializeEvent(event: Event) {
                     throw new Error("Non ASCII character in key name");
                 }
                 view.setUint8(4 + event.code.length + i, charCode);
+            }
+
+            return buffer;
+        }
+
+        case EventType.ClipboardInput:
+        {
+            var clipBoardContent = event.content;
+
+            var size = clipBoardContent.length;
+
+            const buffer = new ArrayBuffer(1 + size);
+            const view = new DataView(buffer);
+            
+            view.setUint8(0, event.type);
+            
+            for(let i = 0; i < size; i++)
+            {
+                const charCode = clipBoardContent.charCodeAt(i);
+                if (charCode >= 128) 
+                {
+                    view.setUint8(1 + i, 100);
+                }
+                else
+                {
+                    view.setUint8(1 + i, charCode);
+                }
             }
 
             return buffer;

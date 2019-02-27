@@ -14,6 +14,7 @@ import { AdvancedSettingsOverlay } from "./advanced-settings-overlay";
 import { IVideoMode } from "./ivideo-mode";
 import { WebRTCStream } from './webrtc-stream';
 import { InputCapturer } from './input-capturer';
+import { Clipboard } from './clipboard';
 
 export class WebStreamer {
     private streamConfig: any;
@@ -109,7 +110,9 @@ export class WebStreamer {
             };
         }
         this.stream.configure(options);
+
         this.inputCapturer.stream = this.stream;
+				Clipboard.STREAM = this.stream;
     }
 
     public isCodecSupported(codec: Codec): boolean {
@@ -158,28 +161,32 @@ export class WebStreamer {
 
         this.decoder.configure(options);
         this.inputCapturer.domElement = this.decoder.domElement;
+				Clipboard.setup(this.decoder.domElement);
     }
 
     private selectStreamAndCodec() {
-        if (this.stream && this.isStreamTypeSupported(this.stream.type)) {
-            this.selectStream(this.stream.type);
-        } else {
-            if (this.isStreamTypeSupported(StreamType.WebRTC)) {
-                this.selectStream(StreamType.WebRTC);
-            } else if (this.isStreamTypeSupported(StreamType.WebSocket)) {
-                this.selectStream(StreamType.WebSocket);
-            } else {
-                throw new Error("Failed to find a supported stream type");
-            }
-        }
+		
+      if (this.stream && this.isStreamTypeSupported(this.stream.type)) {
+          this.selectStream(this.stream.type);
+      } else {
+          if (this.isStreamTypeSupported(StreamType.WebRTC)) {
+              this.selectStream(StreamType.WebRTC);
+          } else if (this.isStreamTypeSupported(StreamType.WebSocket)) {
+              this.selectStream(StreamType.WebSocket);
+          } else {
+              throw new Error("Failed to find a supported stream type");
+          }
+      }
 
-        if (this.isCodecSupported(Codec.H264)) {
-            this.selectCodec(Codec.H264);
-        } else if (this.isCodecSupported(Codec.Raw)) {
-            this.selectCodec(Codec.Raw);
-        } else {
-            alert("Failed to find a supported codec");
-        }
+      if (this.isCodecSupported(Codec.H264)) {
+          this.selectCodec(Codec.H264);
+      } else if (this.isCodecSupported(Codec.Raw)) {
+          this.selectCodec(Codec.Raw);
+      } else {
+          alert("Failed to find a supported codec");
+      }
+			
+			//this.selectStream(StreamType.WebRTC);
     }
 
     private onVideoData(encodedFrame: ArrayBufferView) {

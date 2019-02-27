@@ -1,5 +1,6 @@
 import { Stream } from "./stream";
 import { EventType, MouseAction, KeyboardAction } from "./events";
+import { KeyMapper } from "./key-mapper";
 
 function getMouseAction(eventType: string) {
     switch (eventType) {
@@ -61,18 +62,20 @@ export class InputCapturer {
 
     private registerInputHandlers() {
         if (this._domElement) {
-            this._domElement.addEventListener("contextmenu", this.contextMenuEvent);
+						this._domElement.addEventListener("contextmenu", this.contextMenuEvent);
             this._domElement.addEventListener("mousemove", this.mouseEvent);
             this._domElement.addEventListener("mousedown", this.mouseEvent);
             this._domElement.addEventListener("mouseup", this.mouseEvent);
             this._domElement.addEventListener("dblclick", this.mouseEvent);
             this._domElement.addEventListener("keydown", this.keyboardEvent);
-            this._domElement.addEventListener("keypress", this.keyboardEvent);
+            //this._domElement.addEventListener("keypress", this.keyboardEvent);
             this._domElement.addEventListener("keyup", this.keyboardEvent);
-            if (this._domElement.tabIndex < 0) {
+						if (this._domElement.tabIndex < 0) {
                 this._domElement.tabIndex = -1;
             }
             this._domElement.focus();
+
+						KeyMapper.initializeKeymap();
         }
     }
 
@@ -84,13 +87,13 @@ export class InputCapturer {
             this._domElement.removeEventListener("mouseup", this.mouseEvent);
             this._domElement.removeEventListener("dblclick", this.mouseEvent);
             this._domElement.removeEventListener("keydown", this.keyboardEvent);
-            this._domElement.removeEventListener("keypress", this.keyboardEvent);
+            //this._domElement.removeEventListener("keypress", this.keyboardEvent);
             this._domElement.removeEventListener("keyup", this.keyboardEvent);
         }
     }
 
     private onContextMenu(event: PointerEvent) {
-        event.preventDefault();
+				event.preventDefault();
     }
 
     private onMouseInput(event: MouseEvent) {
@@ -110,13 +113,19 @@ export class InputCapturer {
 
     private onKeyboardInput(event: KeyboardEvent) {
         if (this._stream) {
-            this._stream.sendEvent({
-                type: EventType.KeyboardInput,
-                action: getKeyboardAction(event.type),
-                code: event.code,
-                key: event.key
-            });
+						
+						var mappedKey : string = KeyMapper.onKeyboardEvent(event.key);
+
+						if(mappedKey != '')
+						{
+		          this._stream.sendEvent({
+		              type: EventType.KeyboardInput,
+		              action: getKeyboardAction(event.type),
+		              code: event.code,
+		              key: mappedKey
+		          });
+							//event.preventDefault();
+						}
         }
-        event.preventDefault();
     }
 }

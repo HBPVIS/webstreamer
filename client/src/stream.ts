@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { Event, serializeEvent, deserializeEvent, getEventString } from "./events"
+import { Event, serializeEvent, deserializeEvent, getEventString, EventType } from "./events"
 
 export enum StreamType {
     WebRTC = "webRTC",
@@ -28,13 +28,12 @@ export abstract class Stream {
     public abstract configure(options: any);
 
     public sendEvent(event: Event) {
-        console.info("Send event: " + getEventString(event));
-        this.sendEventData(serializeEvent(event));
+				this.sendEventData(serializeEvent(event));
     }
 
     protected receiveEventData(data: ArrayBufferView) {
-        if (this.onReceiveEvent) {
-            this.onReceiveEvent(deserializeEvent(data));
+				if (this.onReceiveEvent) {
+						this.onReceiveEvent(deserializeEvent(data));
         }
     }
 

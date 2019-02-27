@@ -37,7 +37,8 @@ class WEBSTREAMER_EXPORT WebSocketStreamServer : public WebSocketServer {
  public:
   WebSocketStreamServer(
       const Poco::Util::JSONConfiguration* webstreamer_configuration,
-      Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients);
+      Poco::Util::JSONConfiguration* stream_configuration, ClientSet* clients,
+      int port = -1);
 
   void OnConnect(const Poco::Net::WebSocket& web_socket) override;
 
